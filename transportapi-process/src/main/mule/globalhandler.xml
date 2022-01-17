@@ -19,8 +19,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:request-config name="Fastgo_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="a8595c80-f692-4c08-a124-ecf48e0c4c37" >
 		<http:request-connection host="localhost" port="8083" />
 	</http:request-config>
-	<configuration doc:name="Configuration" doc:id="76566ab7-3f53-49c0-92df-46c22408aa4c" defaultErrorHandler-ref="commoncnfigError_Handler" />
-	<error-handler name="commoncnfigError_Handler" doc:id="fada3b29-2311-41f9-93dd-582a8fbba3cc" >
+	<configuration doc:name="Configuration" doc:id="76566ab7-3f53-49c0-92df-46c22408aa4c" defaultErrorHandler-ref="globalError_Handler" />
+	<error-handler name="globalError_Handler" doc:id="fada3b29-2311-41f9-93dd-582a8fbba3cc" >
 	
             <on-error-propagate type="APIKIT:BAD_REQUEST">
                 <ee:transform>

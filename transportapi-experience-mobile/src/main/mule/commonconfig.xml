@@ -16,8 +16,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="e55500b2-9e31-4ab9-8b89-925a7902dab0" >
 		<http:request-connection host="localhost" port="8081" />
 	</http:request-config>
-	<configuration doc:name="Configuration" doc:id="7d2f7163-53f5-4ea2-a424-cf03ec38fd45" defaultErrorHandler-ref="commonconfigError_Handler" />
-	<error-handler name="commonconfigError_Handler" doc:id="8e57a6eb-0c49-4e83-b2ea-7f9f6a87e1ca" >
+	<configuration doc:name="Configuration" doc:id="7d2f7163-53f5-4ea2-a424-cf03ec38fd45" defaultErrorHandler-ref="globalhandler" />
+	<error-handler name="globalhandler" doc:id="8e57a6eb-0c49-4e83-b2ea-7f9f6a87e1ca" >
 	              <on-error-propagate type="APIKIT:BAD_REQUEST">
                 <ee:transform>
                     <ee:message>

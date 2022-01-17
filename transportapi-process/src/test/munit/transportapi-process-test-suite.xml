@@ -36,7 +36,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<http:request method="GET" doc:name="Request" doc:id="077302f0-b16d-437d-ad36-c1d8085b41de" config-ref="HTTP_Request_configuration" path="/api/bookings/{transportType}/routes">
+			<http:request method="GET" doc:name="Request" doc:id="077302f0-b16d-437d-ad36-c1d8085b41de" config-ref="HTTP_Request_Configuration" path="/api/bookings/{transportType}/routes">
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
@@ -47,7 +47,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 {
 		"transportType" : "sea"
 }]]]></http:uri-params>
-				<http:query-params ><![CDATA[#[companyName : "fastgo"]]]></http:query-params>
 			</http:request>
 		</munit:execution>
 		<munit:validation >
