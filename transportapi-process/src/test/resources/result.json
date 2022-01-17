@@ -1,0 +1,19 @@
+[
+  {
+    "originlocation": {
+      "locationcode": "HYD"
+    },
+    "destinationlocation": {
+      "locationcode": "BLR"
+    }
+  },
+  {
+    "originlocation": {
+      "locationcode": "HYD"
+    },
+    "destinationlocation": {
+      "locationcode": "BLR"
+    }
+  }
+ 
+]
