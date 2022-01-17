@@ -7,89 +7,12 @@
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	
-	<flow name="databaseconfig-xmlFlow" doc:id="db51bea4-4599-4be8-99e0-3d29249c95b1" >
-		<choice doc:name="Choice" doc:id="820ea754-cb05-425e-b800-0b5a2b4edf51" >
+	<flow name="SchudulesFlow" doc:id="2187673e-f3fb-426d-a015-1155ea03f7b2" >
+		<set-variable value="attributes.queryParams.departureLocationCode" doc:name="depaturevariable" doc:id="3e73729d-d173-4b71-9ea2-4507c4703b98" variableName="depaturevariable"/>
+		<set-variable value="attributes.queryParams.destinationLocationCode" doc:name="destinationvariable" doc:id="5c2ee28c-8d37-4481-a8a1-c4ee2b83c838" variableName="destinationvariable"/>
+		<choice doc:name="Choice" doc:id="f085885b-4dae-4c02-88dd-9ce466ed379b" >
 			<when expression='#[attributes.uriParams.transportType == "land"]'>
-				<db:select doc:name="Select" doc:id="7ab4ddd3-6e7d-4199-b713-bd1fcb2e0764" config-ref="Database_Config">
-					<db:sql><![CDATA[SELECT * FROM fastgo.land ;]]></db:sql>
-				</db:select>
-				<ee:transform doc:name="Transform Message" doc:id="9e731f8e-a8a1-4ca2-acfb-a8b0918d1d47" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload map{
-    "originlocation" : {
-        "locationcode": $.departureLocationCode
-    },
-    "destinationlocation":{
-        "locationcode": $.destinationLocationCode
-    }
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</when>
-			<when expression='#[attributes.uriParams.transportType == "air"]'>
-				<db:select doc:name="Select" doc:id="b260d568-649e-4155-8b56-d83586aa6839" config-ref="Database_Config">
-					<db:sql ><![CDATA[SELECT * FROM fastgo.air;]]></db:sql>
-				</db:select>
-				<ee:transform doc:name="Transform Message" doc:id="55a353f5-4327-4b9f-9a4f-f2df72f6b9a1" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload map{
-    "originlocation" : {
-        "locationcode": $.departureLocationCode
-    },
-    "destinationlocation":{
-        "locationcode": $.destinationLocationCode
-    }
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</when>
-			<when expression='#[attributes.uriParams.transportType == "sea"]'>
-				<db:select doc:name="Select" doc:id="89c07876-9bf1-4d9c-9651-629db9e27bdc" config-ref="Database_Config">
-					<db:sql ><![CDATA[SELECT * FROM fastgo.air;]]></db:sql>
-				</db:select>
-				<ee:transform doc:name="Transform Message" doc:id="d18029e8-62ce-454f-ba5b-d18ee4a72a55" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload map{
-    "originlocation" : {
-        "locationcode": $.departureLocationCode
-    },
-    "destinationlocation":{
-        "locationcode": $.destinationLocationCode
-    }
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</when>
-			<otherwise >
-				<ee:transform doc:name="Transform Message" doc:id="ac611ff6-c7cb-469f-9579-f172076ccad0" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	"mmm": "not a valid uriparams"
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</otherwise>
-		</choice>
-	</flow>
-	<flow name="databaseconfig-xmlFlow1" doc:id="bd30c880-f4b2-493f-b771-0816a57d6770" >
-		<set-variable value="attributes.queryParams.departureLocationCode" doc:name="depaturevariable" doc:id="7cf9ee8f-1c11-4e7a-b767-172be5598347" variableName="depaturevariable"/>
-		<set-variable value="attributes.queryParams.destinationLocationCode" doc:name="destinationvariable" doc:id="7ac80658-3042-40f3-930d-be346832d7b1" variableName="destinationvariable"/>
-		<choice doc:name="Choice" doc:id="2d5bc4fa-6ce6-4f44-b042-b62f0ddaa9b8" >
-			<when expression='#[attributes.uriParams.transportType == "land"]'>
-				<db:select doc:name="Select" doc:id="637ac8cc-bd3a-4d3c-949e-33801285de95" config-ref="Database_Config">
+				<db:select doc:name="Select" doc:id="645a72a3-bfab-4cd2-855f-6f67d82bf2cc" config-ref="Database_Config">
 							<db:sql><![CDATA[SELECT * FROM fastgo.land where departureLocationCode=:departureLocationCode and destinationLocationCode=:destinationLocationCode;]]></db:sql>
 							<db:input-parameters><![CDATA[#[{
 	departureLocationCode: attributes.queryParams.departureLocationCode,
@@ -97,11 +20,11 @@ output application/json
 	
 }]]]></db:input-parameters>
 						</db:select>
-				<choice doc:name="Choice" doc:id="d9e24384-bd08-4406-978a-2551307d98ce" >
+				<choice doc:name="Choice" doc:id="d10a93e6-a7e5-4317-a208-ab32dff6c3f8" >
 					<when expression="#[vars.depaturevariable !=null and vars.destinationvariable !=null]">
-						<choice doc:name="Choice" doc:id="d6267021-7808-4f37-9212-db132b2b38e0" >
+						<choice doc:name="Choice" doc:id="246accaf-e300-4c18-91be-68b31baf6da2" >
 							<when expression="#[isEmpty(payload)]">
-								<ee:transform doc:name="Transform Message" doc:id="407f23d8-1913-49ee-9234-a4fae54b01b5" >
+								<ee:transform doc:name="Transform Message" doc:id="bafee13b-166e-4118-a985-5bc0ff3ba3e0" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -113,7 +36,7 @@ output application/json
 								</ee:transform>
 							</when>
 							<otherwise>
-								<ee:transform doc:name="Transform Message" doc:id="1e8bfc7d-832b-453f-9e91-82e45e4741b9">
+								<ee:transform doc:name="Transform Message" doc:id="e376c561-0261-410a-9fc4-c749cc7262a9">
 							<ee:message>
 								<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -136,7 +59,7 @@ payload  map{
 						</choice>
 					</when>
 					<otherwise>
-						<ee:transform doc:name="Transform Message" doc:id="a664f1a0-38eb-465e-85e6-2cc7d8c17520">
+						<ee:transform doc:name="Transform Message" doc:id="8bf1eeef-3399-4862-a167-ff144ff03313">
 							<ee:message>
 								<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -150,7 +73,7 @@ output application/json
 				</choice>
 			</when>
 			<when expression='#[attributes.uriParams.transportType == "air"]'>
-				<db:select doc:name="Select" doc:id="97c8f50e-6760-4616-8aef-ed5168096f0f" config-ref="Database_Config">
+				<db:select doc:name="Select" doc:id="b6fc71be-f35f-48a0-a6ff-d93377898522" config-ref="Database_Config">
 					<db:sql ><![CDATA[SELECT * FROM fastgo.air where departureLocationCode=:departureLocationCode and destinationLocationCode=:destinationLocationCode]]></db:sql>
 					<db:input-parameters ><![CDATA[#[{
 	departureLocationCode: attributes.queryParams.departureLocationCode,
@@ -158,11 +81,11 @@ output application/json
 	
 }]]]></db:input-parameters>
 				</db:select>
-				<choice doc:name="Choice" doc:id="d11aaac3-4ddb-4a0b-bb74-cab4e3151372" >
+				<choice doc:name="Choice" doc:id="00b2904e-a9d8-4074-af32-5cdf74d8a137" >
 					<when expression="#[vars.depaturevariable !=null and vars.destinationvariable !=null]">
-						<choice doc:name="Choice" doc:id="36794700-662e-4afd-819a-33f2db40fbbb" >
+						<choice doc:name="Choice" doc:id="060a6cf2-d235-4e75-a2f5-79b9128ac34c" >
 							<when expression="#[isEmpty(payload)]">
-								<ee:transform doc:name="Transform Message" doc:id="8c27ae49-ea96-457e-b30d-688665abbe2e" >
+								<ee:transform doc:name="Transform Message" doc:id="f647d17e-743c-46d6-a983-7aaad299b0bd" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -174,7 +97,7 @@ output application/json
 								</ee:transform>
 							</when>
 							<otherwise >
-								<ee:transform doc:name="Transform Message" doc:id="2f44debd-e6e6-439e-aa78-7529470b1103" >
+								<ee:transform doc:name="Transform Message" doc:id="4befd49b-afe5-435e-abba-e671a9fc0b23" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -197,7 +120,7 @@ payload  map{
 						</choice>
 					</when>
 					<otherwise >
-						<ee:transform doc:name="Transform Message" doc:id="3d1f7507-7085-4281-9996-3f50b2e2ca72" >
+						<ee:transform doc:name="Transform Message" doc:id="8afea4ad-61ff-483c-97c3-e84b84ab4b31" >
 							<ee:message >
 								<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -211,7 +134,7 @@ output application/json
 				</choice>
 			</when>
 			<when expression='#[attributes.uriParams.transportType == "sea"]'>
-				<db:select doc:name="Select" doc:id="7e05ad81-d0da-43c5-b409-8a996c482a60" config-ref="Database_Config">
+				<db:select doc:name="Select" doc:id="e521ba29-a7bf-4b0c-ade8-eaa64360e69f" config-ref="Database_Config">
 					<db:sql ><![CDATA[SELECT * FROM fastgo.sea where departureLocationCode=:departureLocationCode and destinationLocationCode=:destinationLocationCode]]></db:sql>
 					<db:input-parameters ><![CDATA[#[{
 	departureLocationCode: attributes.queryParams.departureLocationCode,
@@ -219,11 +142,11 @@ output application/json
 	
 }]]]></db:input-parameters>
 				</db:select>
-				<choice doc:name="Choice" doc:id="870b701c-920f-4055-a12e-4aeb66ff984b" >
+				<choice doc:name="Choice" doc:id="b9129f58-ce66-4a27-ad45-c722932b312d" >
 					<when expression="#[vars.depaturevariable !=null and vars.destinationvariable !=null]">
-						<choice doc:name="Choice" doc:id="d7b2a7b7-e8f2-4739-bedd-adb2730a51a7" >
+						<choice doc:name="Choice" doc:id="ce57e7d3-8827-429a-ae8d-0a343a0184b6" >
 							<when expression="#[isEmpty(payload)]">
-								<ee:transform doc:name="Transform Message" doc:id="f26e2b5f-3375-402e-b981-78b0045e1baa">
+								<ee:transform doc:name="Transform Message" doc:id="3b13a172-9bb4-4293-a808-467372b6a064">
 							<ee:message>
 								<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -235,7 +158,7 @@ output application/json
 						</ee:transform>
 							</when>
 							<otherwise >
-								<ee:transform doc:name="Transform Message" doc:id="3a0a8f6d-d2ba-4d85-8033-43eed33ee3fa" >
+								<ee:transform doc:name="Transform Message" doc:id="383e2ec9-40e0-4edd-a35e-c9c692fcddc5" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -258,7 +181,7 @@ payload  map{
 						</choice>
 					</when>
 					<otherwise >
-						<ee:transform doc:name="Transform Message" doc:id="043b4499-f66e-47f9-8aab-6c1a5f5ebc7c" >
+						<ee:transform doc:name="Transform Message" doc:id="f93f38f1-a078-4d4c-af0e-d4b5d81d95bc" >
 							<ee:message >
 								<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -281,7 +204,7 @@ payload  map{
 				</choice>
 			</when>
 			<otherwise >
-				<ee:transform doc:name="Transform Message" doc:id="a84a393e-b5f1-428c-b08c-80c413fd92ac" >
+				<ee:transform doc:name="Transform Message" doc:id="d5747f78-1ac5-40b4-bc28-3b258f21dffc" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json

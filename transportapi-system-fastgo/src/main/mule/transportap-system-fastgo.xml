@@ -41,9 +41,9 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config">
-		<flow-ref doc:name="Flow Reference" doc:id="c0dae9c2-f04a-4b82-94f5-0bb95cf477e5" name="databaseconfig-xmlFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="c0dae9c2-f04a-4b82-94f5-0bb95cf477e5" name="routesFlow"/>
     </flow>
     <flow name="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config">
-		<flow-ref doc:name="Flow Reference" doc:id="e9983487-748a-4a09-9ac5-09156f801793" name="databaseconfig-xmlFlow1"/>
+		<flow-ref doc:name="Flow Reference" doc:id="e9983487-748a-4a09-9ac5-09156f801793" name="SchudulesFlow"/>
     </flow>
 </mule>
