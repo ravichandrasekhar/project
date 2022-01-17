@@ -26,9 +26,9 @@
         <apikit:console config-ref="transportapi-process-config" />
          </flow>
     <flow name="get:\bookings\(transportType)\routes:transportapi-process-config">
-		<flow-ref doc:name="Flow Reference" doc:id="4d33bfd9-b3b2-47dc-bbe9-a2eb0df0616f" name="dataconfigFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="4d33bfd9-b3b2-47dc-bbe9-a2eb0df0616f" name="routesFlow"/>
     </flow>
     <flow name="get:\bookings\(transportType)\schudule:transportapi-process-config">
-		<flow-ref doc:name="Flow Reference" doc:id="aaa4969b-e032-4816-877e-85f0adf7e7db" name="schudulesFlow2"/>
+		<flow-ref doc:name="Flow Reference" doc:id="aaa4969b-e032-4816-877e-85f0adf7e7db" name="schudulesFlow"/>
     </flow>
 </mule>

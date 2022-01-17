@@ -5,7 +5,7 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<flow name="dataconfigFlow" doc:id="4f8cc983-7c72-44eb-b7d3-7dc2688c0ae1" >
+	<flow name="routesFlow" doc:id="4f8cc983-7c72-44eb-b7d3-7dc2688c0ae1" >
 		<scatter-gather doc:name="Scatter-Gather" doc:id="c027d9e1-ce68-4457-bb75-1e8ea7b34556" >
 			<route >
 				<http:request method="GET" doc:name="TravelonTripRequest" doc:id="80ef0a62-a89a-4611-9a5b-8c159b1657d5" path="/api/{transportType}/{transportCompany}/routes" config-ref="Travelontrip_HTTP_Request_configuration">
