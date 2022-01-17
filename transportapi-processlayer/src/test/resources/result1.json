@@ -1,0 +1,26 @@
+[
+  {
+    "avaiableseats": 20,
+    "depatureTime": "2020-02-21T13:40:51",
+    "travelroute": {
+      "destinationlocation": {
+        "locationcode": "BLR"
+      },
+      "originlocation": {
+        "locationcode": "HYD"
+      }
+    }
+  },
+  {
+    "avaiableseats": 20,
+    "depatureTime": "2020-02-21T13:40:51",
+    "travelroute": {
+      "destinationlocation": {
+        "locationcode": "BLR"
+      },
+      "originlocation": {
+        "locationcode": "HYD"
+      }
+    }
+  }
+]

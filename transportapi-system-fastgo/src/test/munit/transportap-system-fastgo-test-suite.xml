@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="transportap-system-fastgo-test-suite.xml" />
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="1b26ac82-6e02-42cb-82d6-ffa4306048c4" >
+		<http:request-connection host="localhost" port="8083" />
+	</http:request-config>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest" doc:id="6202d465-ba57-41eb-8695-8223e62113d1" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="309123b3-28a6-42a6-b3eb-b8975e467e2e" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="7ab4ddd3-6e7d-4199-b713-bd1fcb2e0764" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="f35dc069-7cd2-45e2-b29e-352405a388a0" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/routes">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "land"
+}]]]></http:uri-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="44d3d798-b164-426a-9f7b-2b58ae17c808" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest1" doc:id="dac969bc-b159-48de-8e3e-e6b6b71cfc48" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="f5e60a73-6bdb-4550-a7e2-b3aed8eb21d1" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="89c07876-9bf1-4d9c-9651-629db9e27bdc" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="69db692f-15c0-43fe-b2f6-dc06f10be900" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/routes">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "air"
+}]]]></http:uri-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="91899c72-c169-4235-9eb3-bbe947fe7e9a" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest2" doc:id="65096fbf-dbc3-4142-a226-c90f85e1ddc5" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0a91d12e-8716-4ae7-a6dc-bb75df5457d8" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="89c07876-9bf1-4d9c-9651-629db9e27bdc" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="348a37a9-f575-41e3-a193-874d78719a1c" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/routes">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "sea"
+}]]]></http:uri-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3486c4c9-89b6-40f6-bbe1-f61f049957cb" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest3" doc:id="e2fbd833-0d45-495e-a680-e1c69b48898f" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a1e63817-5e11-4957-8173-0b45b3139858" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="89c07876-9bf1-4d9c-9651-629db9e27bdc" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="bbf0bc37-16bb-42da-9e6c-4a6e9b734715" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/routes">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "sea1"
+}]]]></http:uri-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c00721f5-2e75-40bf-8b14-43e283e61435" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest4" doc:id="f8d0417d-4eda-4f2a-bcfd-51d6bc4751dd" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="fa30ed82-bf48-4520-a82e-94fc1c367b29" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="7ab4ddd3-6e7d-4199-b713-bd1fcb2e0764" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="29d6b8d2-62ee-4fe5-8f35-21c5bb0aa0d7" >
+				<http:request method="GET" doc:name="Request" doc:id="32213f84-51c8-4263-9135-250f65034915" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/routes" >
+					<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "sea1"
+}]]]></http:uri-params>
+				</http:request>
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="392a7a0c-1733-4760-857d-9f9cf49c3e23" >
+						<ee:transform doc:name="Transform Message" doc:id="d4059e52-c7d4-4eba-9e83-704c1cbcc4b2" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{"message": "Bad request"}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1281d843-557b-42c9-ace6-df507473e634" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest5" doc:id="a8f0a57a-63dd-45e6-b4ed-a449f98fd911" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="92299cab-8fff-42b9-befc-bcd0f3f928bd" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="7ab4ddd3-6e7d-4199-b713-bd1fcb2e0764" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="c5f65f08-9284-42fc-b708-febd76bdf239" >
+				<http:request method="POST" doc:name="Request" doc:id="353bbb32-f447-4602-bdcd-fb674d8779fd" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/routes">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "sea1"
+}]]]></http:uri-params>
+			</http:request>
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="1dc8061b-49fc-4c9f-8503-51e0957855fb" >
+						<ee:transform doc:name="Transform Message" doc:id="a67c0623-4e2d-403a-9cca-3b24337aaf2f" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Method Not Allowed"
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="2cdf474c-844c-42c4-afe3-d78f693c9b7d" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest6" doc:id="dc69d04f-e263-4777-8f94-e481bf00e925" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="57d40654-95e8-421a-abd6-a1f61b556f44" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="7ab4ddd3-6e7d-4199-b713-bd1fcb2e0764" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="793a4c8b-4f67-4c81-8690-6029a79357de" >
+				<http:request method="GET" doc:name="Request" doc:id="5e6ccab9-3218-4e2c-90d6-d231ef75921d" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/routes1">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "sea1"
+}]]]></http:uri-params>
+			</http:request>
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="9da90ae9-1faf-4566-b187-b94cdc563b39" >
+						<ee:transform doc:name="Transform Message" doc:id="38418526-c1bd-4847-9cab-0df33d8c3367" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Resource Not Found"
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5636f23a-941f-4d3f-a45d-250cb4143334" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest7" doc:id="8e13492f-c7ba-4ca1-a639-60f687782ad3" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="15224ba6-2a94-47ad-aa2d-7d76e315783a" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="637ac8cc-bd3a-4d3c-949e-33801285de95" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="f43e0a19-8447-45fd-9016-845ada9724d6" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudules">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "sea"
+}]]]></http:uri-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="806ee5d5-36df-458b-8446-3dfbf9a4c699" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest8" doc:id="8cf36479-895f-48a3-ab0d-17cdf339c5ac" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="bb0bdf2e-e713-462a-8f8d-ef6a3c69d44e" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="637ac8cc-bd3a-4d3c-949e-33801285de95" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="2491f7a1-e72b-4267-9ce3-e11cc34f0237" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudules">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "sea"
+}]]]></http:uri-params>
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"departureLocationCode" : "HYD",
+	"destinationLocationCode" : "BLR"
+}]]]></http:query-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="920b1ff7-2745-41cb-a116-07df9e52cab8" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest9" doc:id="4f0619c0-71ad-4f19-a6a0-12cfb7b1c75d" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="446aefda-9f3b-4cc4-b052-6e7c08b3be8e" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="637ac8cc-bd3a-4d3c-949e-33801285de95" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="74244090-78cf-42e7-ba97-103424c291e9" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudules">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "land"
+}]]]></http:uri-params>
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"departureLocationCode" : "HYD",
+	"destinationLocationCode" : "BLR"
+}]]]></http:query-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5f7b6e4d-f089-4806-8965-d29809a11a0f" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest10" doc:id="808150af-9beb-4ba2-9f0e-e970e23b43c4" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="24f40189-60c6-49bb-861a-f393dac95ca6" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="637ac8cc-bd3a-4d3c-949e-33801285de95" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="2c1e1ef5-89db-4d69-92e9-6935e6c7ccb8" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudules">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "land"
+}]]]></http:uri-params>
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"departureLocationCode" : "HYD1",
+	"destinationLocationCode" : "BLR1"
+}]]]></http:query-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="e4cf6609-d120-4657-b0ac-7105b1a0ebbc" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest11" doc:id="f70d5c52-3f17-49af-9644-7ee41631392b" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportap-system-fastgo-main" />
+			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e4df19d5-4883-4a9f-9cbb-5835488a50ed" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="637ac8cc-bd3a-4d3c-949e-33801285de95" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<http:request method="GET" doc:name="Request" doc:id="28d2b673-89c5-4440-a476-742f6677d711" config-ref="HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudules">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "123dntii"
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportCompany" : "fastgo",
+	"transportType" : "air"
+}]]]></http:uri-params>
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"departureLocationCode" : "HYD",
+	"destinationLocationCode" : "BLR"
+}]]]></http:query-params>
+			</http:request>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="98c4a693-9d43-4099-823c-91dbdbe6c083" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
