@@ -18,4 +18,10 @@ get:
           body:
             application/json:
               examples: !include examples/schuduleexample.raml
+        400:
+         body:
+          application/json:
+            examples: {
+              "message" : "Bad Request"
+            }
                 

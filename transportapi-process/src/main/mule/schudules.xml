@@ -6,13 +6,16 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="schudulesFlow" doc:id="87ba8fa5-1665-4704-a9e7-a8878b143848" >
+		<logger level="INFO" doc:name="infoLogger" doc:id="e2426696-dfd7-4598-be4e-3c16e4e72134" message="correlationId -- #[vars.correlationId]"/>
 		<scatter-gather doc:name="Scatter-Gather" doc:id="3dc91912-c0d1-4d66-9b98-e0d36aee602e" >
 			<route >
-				<http:request method="GET" doc:name="Request" doc:id="642e908a-bb66-45fc-847c-2b0571449bd6" config-ref="Fastgo_HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudules">
+				<http:request method="GET" doc:name="fastgoRequest" doc:id="642e908a-bb66-45fc-847c-2b0571449bd6" config-ref="Fastgo_HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudules">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : attributes.headers.transactionId
+	"transactionId" : attributes.headers.transactionId,
+	"client_id" : attributes.headers.client_id,
+	"client_secret": attributes.headers.client_secret
 }]]]></http:headers>
 			<http:uri-params><![CDATA[#[output application/java
 ---
@@ -28,7 +31,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"destinationLocationCode" : attributes.queryParams.destinationLocationCode
 }]]]></http:query-params>
 		</http:request>
-				<ee:transform doc:name="Transform Message" doc:id="43ebd77d-fb83-4137-88e3-f77ee947f1ba">
+				<ee:transform doc:name="gettingPayloadfromSystemlayerFastGo" doc:id="43ebd77d-fb83-4137-88e3-f77ee947f1ba">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -38,11 +41,13 @@ payload]]></ee:set-payload>
 		</ee:transform>
 			</route>
 			<route >
-				<http:request method="GET" doc:name="Request" doc:id="71b50f88-5772-44a8-beda-3617b3dc46dd" config-ref="Travelontrip_HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudule" responseTimeout="500000">
+				<http:request method="GET" doc:name="travelOnTripRequest" doc:id="71b50f88-5772-44a8-beda-3617b3dc46dd" config-ref="Travelontrip_HTTP_Request_configuration" path="/api/{transportType}/{transportCompany}/schudule" responseTimeout="500000">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : attributes.headers.transactionId
+	"transactionId" : attributes.headers.transactionId,
+	"client_id" : attributes.headers.client_id,
+	"client_secret": attributes.headers.client_secret
 }]]]></http:headers>
 			<http:uri-params><![CDATA[#[output application/java
 ---
@@ -58,7 +63,7 @@ payload]]></ee:set-payload>
 	"destinationLocationCode" : attributes.queryParams.destinationLocationCode
 }]]]></http:query-params>
 		</http:request>
-				<ee:transform doc:name="Transform Message" doc:id="621b65ab-8a8b-440e-a440-bc92b040f778" >
+				<ee:transform doc:name="gettingPayloadfromSystemlayerTravelonTrip" doc:id="621b65ab-8a8b-440e-a440-bc92b040f778" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -68,7 +73,7 @@ payload]]></ee:set-payload>
 				</ee:transform>
 			</route>
 		</scatter-gather>
-		<ee:transform doc:name="Transform Message" doc:id="8e75d201-8882-4f95-ad0f-78fa43858a76" >
+		<ee:transform doc:name="combineOutput" doc:id="8e75d201-8882-4f95-ad0f-78fa43858a76" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -76,5 +81,6 @@ output application/json
 payload..payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="DEBUG" doc:name="debugLogger" doc:id="46632d27-be97-4ebe-b744-b397b9ef3f32" message="#[payload]"/>
 	</flow>
 </mule>

@@ -13,7 +13,12 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:listener-config name="transportap-system-fastgo-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8083" />
     </http:listener-config>
-    <apikit:config name="transportap-system-fastgo-config" api="transportap-system-fastgo.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="transportap-system-fastgo-config" api="transportap-system-fastgo.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" >
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/{transportType}/{transportCompany}/routes" action="get" flow-ref="routesFlow" />
+			<apikit:flow-mapping resource="/{transportType}/{transportCompany}/schudules" action="get" flow-ref="SchudulesFlow" />
+		</apikit:flow-mappings>
+	</apikit:config>
   <db:config name="Database_Config" doc:name="Database Config" doc:id="fb80ceea-5e8c-4741-b78e-c6f8fef40693" >
 		<db:my-sql-connection host="localhost" port="3306" user="root" password="root" database="fastgo" />
 	</db:config>
@@ -97,7 +102,22 @@ output application/json
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
-        </error-handler>
+            
+          
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="3c4b4622-d58b-4f5c-9831-de80050715a7" type="DB:CONNECTIVITY">
+				<ee:transform doc:name="Transform Message" doc:id="95bcc667-2603-4523-9e91-182aaf3dbc35" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "we are inform that database has been slow down"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
+       
    
 	
 	

@@ -1,15 +1,27 @@
 #%RAML 1.0
 title: transportap-system-FastGo
 description: "This is an Transport application"
+traits:
+   client-id-required:
+    headers:
+      client_id:
+        type: string
+        required: true
+      client_secret:
+        type: string
+        required: true
+  
 resourceTypes:
   routeData: !include api/routeresourceType.raml
   schuduleData: !include api/schuduleresourceType.raml
 /{transportType}:
    /{transportCompany}:
       /routes:
+        is: [client-id-required]
         type:
           routeData
       /schudules:
-         type:
-          schuduleData
+        is: [client-id-required]
+        type:
+           schuduleData
 

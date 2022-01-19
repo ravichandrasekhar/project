@@ -11,10 +11,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="routesFlow" doc:id="db51bea4-4599-4be8-99e0-3d29249c95b1" >
 		<choice doc:name="Choice" doc:id="820ea754-cb05-425e-b800-0b5a2b4edf51" >
 			<when expression='#[attributes.uriParams.transportType == "land"]'>
-				<db:select doc:name="Select" doc:id="7ab4ddd3-6e7d-4199-b713-bd1fcb2e0764" config-ref="Database_Config">
+				<db:select doc:name="fastgo.land" doc:id="7ab4ddd3-6e7d-4199-b713-bd1fcb2e0764" config-ref="Database_Config">
 					<db:sql><![CDATA[SELECT * FROM fastgo.land ;]]></db:sql>
 				</db:select>
-				<ee:transform doc:name="Transform Message" doc:id="9e731f8e-a8a1-4ca2-acfb-a8b0918d1d47" >
+				<logger level="INFO" doc:name="infoLogger" doc:id="003fa725-dee5-4b9b-941a-2ca5ccd62fe7" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.routes"/>
+				<ee:transform doc:name="getExceptOutput" doc:id="9e731f8e-a8a1-4ca2-acfb-a8b0918d1d47" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -29,12 +30,15 @@ payload map{
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-			</when>
+				<logger level="DEBUG" doc:name="debugLogger" doc:id="fd1e2d52-c51b-4c05-9f96-bc4d06e265b4" message="land -- #[payload]" category="com.mouritech.mule4.routes"/>
+			
+</when>
 			<when expression='#[attributes.uriParams.transportType == "air"]'>
-				<db:select doc:name="Select" doc:id="b260d568-649e-4155-8b56-d83586aa6839" config-ref="Database_Config">
+				<db:select doc:name="fastgo.air" doc:id="b260d568-649e-4155-8b56-d83586aa6839" config-ref="Database_Config">
 					<db:sql ><![CDATA[SELECT * FROM fastgo.air;]]></db:sql>
 				</db:select>
-				<ee:transform doc:name="Transform Message" doc:id="55a353f5-4327-4b9f-9a4f-f2df72f6b9a1" >
+				<logger level="INFO" doc:name="infoLogger" doc:id="df546ab7-1f6c-4d4a-81fa-5b4ce34b27e1" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.routes"/>
+				<ee:transform doc:name="getExceptOutput" doc:id="55a353f5-4327-4b9f-9a4f-f2df72f6b9a1" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -49,12 +53,15 @@ payload map{
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-			</when>
+				<logger level="DEBUG" doc:name="debugLogger" doc:id="ae0fdc9c-e23e-4ebb-8bcf-16a2bb7abf77" message="air -- #[payload]" category="com.mouritech.mule4.routes"/>
+			
+</when>
 			<when expression='#[attributes.uriParams.transportType == "sea"]'>
-				<db:select doc:name="Select" doc:id="89c07876-9bf1-4d9c-9651-629db9e27bdc" config-ref="Database_Config">
-					<db:sql ><![CDATA[SELECT * FROM fastgo.air;]]></db:sql>
+				<db:select doc:name="fastgo.sea" doc:id="89c07876-9bf1-4d9c-9651-629db9e27bdc" config-ref="Database_Config">
+					<db:sql ><![CDATA[SELECT * FROM fastgo.sea;]]></db:sql>
 				</db:select>
-				<ee:transform doc:name="Transform Message" doc:id="d18029e8-62ce-454f-ba5b-d18ee4a72a55" >
+				<logger level="INFO" doc:name="infoLogger" doc:id="38f93340-91d4-4527-9dcc-0882d787beb3" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.routes"/>
+				<ee:transform doc:name="getExceptOutput" doc:id="d18029e8-62ce-454f-ba5b-d18ee4a72a55" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -69,20 +76,27 @@ payload map{
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-			</when>
+				<logger level="DEBUG" doc:name="debugLogger" doc:id="7deaa491-fc7f-480b-a2ef-260b946f96a1" message="sea-- #[payload]" category="com.mouritech.mule4.routes"/>
+			
+</when>
 			<otherwise >
-				<ee:transform doc:name="Transform Message" doc:id="ac611ff6-c7cb-469f-9579-f172076ccad0" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+				<logger level="INFO" doc:name="infoLogger" doc:id="aea4c82c-e166-4acb-b5b2-99ecbddf2516" category="com.mouritech.mule4.routes" message="correlationId -- #[vars.correlationId]"/>
+				<ee:transform doc:name="uriParamsNotValid" doc:id="ac611ff6-c7cb-469f-9579-f172076ccad0">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"mmm": "not a valid uriparams"
+	"message": "not a valid uriparams"
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-			</otherwise>
+				<logger level="DEBUG" doc:name="debugLogger" doc:id="6bfa8b5b-a563-419e-b458-f8dbbdb48e71" message="#[payload]" category="com.mouritech.mule4.routes"/>
+			
+</otherwise>
 		</choice>
-	</flow>
+		
+	
+</flow>
 	
 	</mule>

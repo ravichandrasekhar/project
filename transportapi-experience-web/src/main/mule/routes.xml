@@ -6,32 +6,38 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="routesFlow" doc:id="af191522-2443-4dc4-8484-58dd36faf2cb" >
-		<http:request method="GET" doc:name="Request" doc:id="28564e5a-1c8f-46b2-b283-d1dfdd2daa62" config-ref="HTTP_Request_configuration" path="/api/bookings/{transportType}/routes">
-			<http:headers ><![CDATA[#[output application/java
+		<ee:cache doc:name="Cache" doc:id="7602f61b-f58c-4490-bbbe-5e8321434f8d" >
+			<logger level="INFO" doc:name="infoLogger" doc:id="36669d15-2166-4805-907a-0c996b2b853b" message="correlationId --- #[vars.correlationId]"/>
+			<http:request method="GET" doc:name="gettingDataProcesslayer" doc:id="28564e5a-1c8f-46b2-b283-d1dfdd2daa62" config-ref="HTTP_Request_configuration" path="/api/bookings/{transportType}/routes">
+			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : attributes.headers.transactionId
+	"transactionId" : attributes.headers.transactionId,
+	"client_id" : attributes.headers.client_id,
+	"client_secret": attributes.headers.client_secret
 }]]]></http:headers>
-			<http:uri-params ><![CDATA[#[output application/java
+			<http:uri-params><![CDATA[#[output application/java
 ---
 {
 	"transportCompany" : attributes.queryParams.companyName default "travelontrip",
 	"transportType" : attributes.uriParams.transportTypes
 }]]]></http:uri-params>
-			<http:query-params ><![CDATA[#[output application/java
+			<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"departureLocationCode" : attributes.queryParams.departureLocationCode,
 	"destinationLocationCode" : attributes.queryParams.destinationLocationCode
 }]]]></http:query-params>
 		</http:request>
-		<ee:transform doc:name="Transform Message" doc:id="269973ec-1932-41e8-8c78-9d3d92c9aaf0" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+			<ee:transform doc:name="exceptedOutput" doc:id="269973ec-1932-41e8-8c78-9d3d92c9aaf0">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+			<logger level="DEBUG" doc:name="debugLogger" doc:id="0474b95d-86c4-4dca-8500-fbf95456a20d" message="#[payload]"/>
+		</ee:cache>
 	</flow>
 </mule>

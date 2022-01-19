@@ -12,7 +12,12 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	 <http:listener-config name="transportapi-process-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
-    <apikit:config name="transportapi-process-config" api="transportapi-process.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="transportapi-process-config" api="transportapi-process.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" >
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/bookings/{transportType}/routes" action="get" flow-ref="routesFlow" />
+			<apikit:flow-mapping resource="/bookings/{transportType}/schudule" action="get" flow-ref="schudulesFlow" />
+		</apikit:flow-mappings>
+	</apikit:config>
 	<http:request-config name="Travelontrip_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="10ceea18-dfcd-4ea1-b59f-13f754460b26" >
 		<http:request-connection host="localhost" port="8082" />
 	</http:request-config>

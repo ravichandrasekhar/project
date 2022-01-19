@@ -11,7 +11,8 @@
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
             </http:error-response>
         </http:listener>
-        <apikit:router config-ref="transportapi-process-config" />
+        <set-variable value="#[uuid()]" doc:name="correlationId" doc:id="a0d6f549-0285-4ee7-80ac-cef57075cc52" variableName="correlationId"/>
+		<apikit:router config-ref="transportapi-process-config" />
          </flow>
     <flow name="transportapi-process-console">
         <http:listener config-ref="transportapi-process-httpListenerConfig" path="/console/*">
@@ -25,10 +26,4 @@
         </http:listener>
         <apikit:console config-ref="transportapi-process-config" />
          </flow>
-    <flow name="get:\bookings\(transportType)\routes:transportapi-process-config">
-		<flow-ref doc:name="Flow Reference" doc:id="4d33bfd9-b3b2-47dc-bbe9-a2eb0df0616f" name="routesFlow"/>
-    </flow>
-    <flow name="get:\bookings\(transportType)\schudule:transportapi-process-config">
-		<flow-ref doc:name="Flow Reference" doc:id="aaa4969b-e032-4816-877e-85f0adf7e7db" name="schudulesFlow"/>
-    </flow>
 </mule>

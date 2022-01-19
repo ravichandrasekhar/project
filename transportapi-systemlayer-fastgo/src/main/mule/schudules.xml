@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<set-variable value="attributes.queryParams.destinationLocationCode" doc:name="destinationvariable" doc:id="5c2ee28c-8d37-4481-a8a1-c4ee2b83c838" variableName="destinationvariable"/>
 		<choice doc:name="Choice" doc:id="f085885b-4dae-4c02-88dd-9ce466ed379b" >
 			<when expression='#[attributes.uriParams.transportType == "land"]'>
-				<db:select doc:name="Select" doc:id="645a72a3-bfab-4cd2-855f-6f67d82bf2cc" config-ref="Database_Config">
+				<db:select doc:name="fastgo.land" doc:id="645a72a3-bfab-4cd2-855f-6f67d82bf2cc" config-ref="Database_Config">
 							<db:sql><![CDATA[SELECT * FROM fastgo.land where departureLocationCode=:departureLocationCode and destinationLocationCode=:destinationLocationCode;]]></db:sql>
 							<db:input-parameters><![CDATA[#[{
 	departureLocationCode: attributes.queryParams.departureLocationCode,
@@ -24,7 +24,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<when expression="#[vars.depaturevariable !=null and vars.destinationvariable !=null]">
 						<choice doc:name="Choice" doc:id="246accaf-e300-4c18-91be-68b31baf6da2" >
 							<when expression="#[isEmpty(payload)]">
-								<ee:transform doc:name="Transform Message" doc:id="bafee13b-166e-4118-a985-5bc0ff3ba3e0" >
+								<logger level="INFO" doc:name="infoLogger" doc:id="194a184a-7487-4bd3-b967-2789d324326a" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.schdules" />
+								<ee:transform doc:name="noRoutesAvailable" doc:id="bafee13b-166e-4118-a985-5bc0ff3ba3e0" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -34,9 +35,12 @@ output application/json
 }]]></ee:set-payload>
 									</ee:message>
 								</ee:transform>
-							</when>
+								<logger level="DEBUG" doc:name="debugLogger" doc:id="642011e6-5ecb-42f5-a071-bda89993d7d2" message="land -- #[payload]" category="com.mouritech.mule4.schdules"/>
+							
+</when>
 							<otherwise>
-								<ee:transform doc:name="Transform Message" doc:id="e376c561-0261-410a-9fc4-c749cc7262a9">
+								<logger level="INFO" doc:name="infoLogger" doc:id="5d75693d-35fd-4c6f-a6e3-22273d72b78a" message="correlationId --- #[vars.correlationId]" category="com.mouritech.mule4.schdules"/>
+								<ee:transform doc:name="getExceptOutput" doc:id="e376c561-0261-410a-9fc4-c749cc7262a9">
 							<ee:message>
 								<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -55,11 +59,14 @@ payload  map{
 }]]></ee:set-payload>
 							</ee:message>
 						</ee:transform>
-							</otherwise>
+								<logger level="DEBUG" doc:name="debugLogger" doc:id="d9967fdf-c26a-4dff-b7fe-3c8eeab3f306" message="land ---#[payload]" category="com.mouritech.mule4.schdules"/>
+							
+</otherwise>
 						</choice>
 					</when>
 					<otherwise>
-						<ee:transform doc:name="Transform Message" doc:id="8bf1eeef-3399-4862-a167-ff144ff03313">
+						<logger level="INFO" doc:name="infoLogger" doc:id="8e489ddd-3237-4b60-9f5d-2f7789595f7f" message="correlationId- #[vars.correlationId]" category="com.mouritech.mule4.schdules" />
+						<ee:transform doc:name="defaultTransform" doc:id="8bf1eeef-3399-4862-a167-ff144ff03313">
 							<ee:message>
 								<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -69,11 +76,13 @@ output application/json
 }]]></ee:set-payload>
 							</ee:message>
 						</ee:transform>
-					</otherwise>
+						<logger level="DEBUG" doc:name="debugLogger" doc:id="520df4e7-6a55-4d04-81c2-e9f6db5514ca" message="#[payload]" category="com.mouritech.mule4.schdules"/>
+					
+</otherwise>
 				</choice>
 			</when>
 			<when expression='#[attributes.uriParams.transportType == "air"]'>
-				<db:select doc:name="Select" doc:id="b6fc71be-f35f-48a0-a6ff-d93377898522" config-ref="Database_Config">
+				<db:select doc:name="fastgo.air" doc:id="b6fc71be-f35f-48a0-a6ff-d93377898522" config-ref="Database_Config">
 					<db:sql ><![CDATA[SELECT * FROM fastgo.air where departureLocationCode=:departureLocationCode and destinationLocationCode=:destinationLocationCode]]></db:sql>
 					<db:input-parameters ><![CDATA[#[{
 	departureLocationCode: attributes.queryParams.departureLocationCode,
@@ -85,7 +94,8 @@ output application/json
 					<when expression="#[vars.depaturevariable !=null and vars.destinationvariable !=null]">
 						<choice doc:name="Choice" doc:id="060a6cf2-d235-4e75-a2f5-79b9128ac34c" >
 							<when expression="#[isEmpty(payload)]">
-								<ee:transform doc:name="Transform Message" doc:id="f647d17e-743c-46d6-a983-7aaad299b0bd" >
+								<logger level="INFO" doc:name="infoLogger" doc:id="dcff4191-f7f6-47a1-a937-8e707da2e571" category="com.mouritech.mule4.schdules" message="correlationId --- #[vars.correlationId]"/>
+								<ee:transform doc:name="noRoutesAvaialbale" doc:id="f647d17e-743c-46d6-a983-7aaad299b0bd" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -95,9 +105,12 @@ output application/json
 }]]></ee:set-payload>
 									</ee:message>
 								</ee:transform>
-							</when>
+								<logger level="DEBUG" doc:name="debugLogger" doc:id="6be72590-5c07-449c-9b27-2b1d748d02ed" message="air ---#[payload]" category="com.mouritech.mule4.schdules"/>
+							
+</when>
 							<otherwise >
-								<ee:transform doc:name="Transform Message" doc:id="4befd49b-afe5-435e-abba-e671a9fc0b23" >
+								<logger level="INFO" doc:name="infoLogger" doc:id="a9132d72-8b10-47e0-ba18-629c7cd0964a" message="correlationId --- #[vars.correlationId]" category="com.mouritech.mule4.schdules"/>
+								<ee:transform doc:name="getExceptedOutput" doc:id="4befd49b-afe5-435e-abba-e671a9fc0b23" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -116,11 +129,14 @@ payload  map{
 }]]></ee:set-payload>
 									</ee:message>
 								</ee:transform>
-							</otherwise>
+								<logger level="DEBUG" doc:name="debugLogger" doc:id="dc78d073-28da-421c-9464-b27552ddd68d" message="air -- #[payload]" category="com.mouritech.mule4.schdules"/>
+							
+</otherwise>
 						</choice>
 					</when>
 					<otherwise >
-						<ee:transform doc:name="Transform Message" doc:id="8afea4ad-61ff-483c-97c3-e84b84ab4b31" >
+						<logger level="INFO" doc:name="infoLogger" doc:id="e88b2987-6508-4f33-88b7-0b38a6476066" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.schdules" />
+						<ee:transform doc:name="defaultTransfrom" doc:id="8afea4ad-61ff-483c-97c3-e84b84ab4b31" >
 							<ee:message >
 								<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -130,11 +146,13 @@ output application/json
 }]]></ee:set-payload>
 							</ee:message>
 						</ee:transform>
-					</otherwise>
+						<logger level="DEBUG" doc:name="debugLogger" doc:id="b12f3b31-afec-41f6-8e36-2b04f0304305" message="#[payload]" category="com.mouritech.mule4.schdules"/>
+					
+</otherwise>
 				</choice>
 			</when>
 			<when expression='#[attributes.uriParams.transportType == "sea"]'>
-				<db:select doc:name="Select" doc:id="e521ba29-a7bf-4b0c-ade8-eaa64360e69f" config-ref="Database_Config">
+				<db:select doc:name="fastgo.sea" doc:id="e521ba29-a7bf-4b0c-ade8-eaa64360e69f" config-ref="Database_Config">
 					<db:sql ><![CDATA[SELECT * FROM fastgo.sea where departureLocationCode=:departureLocationCode and destinationLocationCode=:destinationLocationCode]]></db:sql>
 					<db:input-parameters ><![CDATA[#[{
 	departureLocationCode: attributes.queryParams.departureLocationCode,
@@ -146,7 +164,8 @@ output application/json
 					<when expression="#[vars.depaturevariable !=null and vars.destinationvariable !=null]">
 						<choice doc:name="Choice" doc:id="ce57e7d3-8827-429a-ae8d-0a343a0184b6" >
 							<when expression="#[isEmpty(payload)]">
-								<ee:transform doc:name="Transform Message" doc:id="3b13a172-9bb4-4293-a808-467372b6a064">
+								<logger level="INFO" doc:name="infoLogger" doc:id="7983d662-3c38-4afe-b85d-146a8d0e4aef" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.schdules"/>
+								<ee:transform doc:name="noRoutesAvaialble" doc:id="3b13a172-9bb4-4293-a808-467372b6a064">
 							<ee:message>
 								<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -156,9 +175,12 @@ output application/json
  }]]></ee:set-payload>
 							</ee:message>
 						</ee:transform>
-							</when>
+								<logger level="DEBUG" doc:name="debugLogger" doc:id="797f1f46-8cb2-4298-937b-b59b1fcce842" message="sea -- #[payload]" category="com.mouritech.mule4.schdules"/>
+							
+</when>
 							<otherwise >
-								<ee:transform doc:name="Transform Message" doc:id="383e2ec9-40e0-4edd-a35e-c9c692fcddc5" >
+								<logger level="INFO" doc:name="infoLogger" doc:id="fe9ad2e4-e3d7-4be0-9cd5-fbdc50fed4ef" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.schdules"/>
+								<ee:transform doc:name="getExceptedOutput" doc:id="383e2ec9-40e0-4edd-a35e-c9c692fcddc5" >
 									<ee:message >
 										<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -177,11 +199,14 @@ payload  map{
 }]]></ee:set-payload>
 									</ee:message>
 								</ee:transform>
-							</otherwise>
+								<logger level="DEBUG" doc:name="debugLogger" doc:id="d21f60d5-60da-4ae5-8b9b-134c1935f042" message="sea -- #[payload]" category="com.mouritech.mule4.schdules"/>
+							
+</otherwise>
 						</choice>
 					</when>
 					<otherwise >
-						<ee:transform doc:name="Transform Message" doc:id="f93f38f1-a078-4d4c-af0e-d4b5d81d95bc" >
+						<logger level="INFO" doc:name="infoLogger" doc:id="be199e1c-b6c4-4a6d-afb5-927d5af8205b" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.schdules" />
+						<ee:transform doc:name="defaultTransform" doc:id="f93f38f1-a078-4d4c-af0e-d4b5d81d95bc" >
 							<ee:message >
 								<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -200,11 +225,14 @@ payload  map{
 }]]></ee:set-payload>
 							</ee:message>
 						</ee:transform>
-					</otherwise>
+						<logger level="DEBUG" doc:name="debugLogger" doc:id="039b4b6f-8645-45a2-8821-e9bb525bc6b2" message="#[payload]" category="com.mouritech.mule4.schdules"/>
+					
+</otherwise>
 				</choice>
 			</when>
 			<otherwise >
-				<ee:transform doc:name="Transform Message" doc:id="d5747f78-1ac5-40b4-bc28-3b258f21dffc" >
+				<logger level="INFO" doc:name="infoLogger" doc:id="73ca2d4c-f22f-4caa-98ce-4d3ea9a22358" message="correlationId -- #[vars.correlationId]" category="com.mouritech.mule4.schdules" />
+				<ee:transform doc:name="defaultTransform" doc:id="d5747f78-1ac5-40b4-bc28-3b258f21dffc" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -214,7 +242,9 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-			</otherwise>
+				<logger level="DEBUG" doc:name="debugLogger" doc:id="5f3faad4-5942-4ecd-84c6-6785b953618d" message="#[payload]" category="com.mouritech.mule4.schdules"/>
+			
+</otherwise>
 		</choice>
 	</flow>
 	

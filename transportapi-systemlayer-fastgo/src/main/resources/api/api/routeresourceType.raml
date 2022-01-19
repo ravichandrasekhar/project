@@ -10,3 +10,9 @@ get:
         body:
           application/json:
             examples: !include examples/routeexample.raml
+      400:
+        body:
+          application/json:
+            examples: {
+              "message" : "Bad Request"
+            }

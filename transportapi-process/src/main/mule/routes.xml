@@ -6,13 +6,16 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="routesFlow" doc:id="4f8cc983-7c72-44eb-b7d3-7dc2688c0ae1" >
+		<logger level="INFO" doc:name="infoLogger" doc:id="41f03cc0-c1b1-450e-9210-2929d00108ea" message="correlationId -- #[vars.correlationId]"/>
 		<scatter-gather doc:name="Scatter-Gather" doc:id="c027d9e1-ce68-4457-bb75-1e8ea7b34556" >
 			<route >
 				<http:request method="GET" doc:name="TravelonTripRequest" doc:id="80ef0a62-a89a-4611-9a5b-8c159b1657d5" path="/api/{transportType}/{transportCompany}/routes" config-ref="Travelontrip_HTTP_Request_configuration">
 					<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : attributes.headers.transactionId
+	"transactionId" : attributes.headers.transactionId,
+	"client_id" : attributes.headers.client_id,
+	"client_secret": attributes.headers.client_secret
 }]]]></http:headers>
 					<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -21,7 +24,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"transportType" : attributes.uriParams.transportType
 }]]]></http:uri-params>
 				</http:request>
-				<ee:transform doc:name="Transform Message" doc:id="f186e5ab-cf41-4be7-8013-ec86273ebacd" >
+				<ee:transform doc:name="gettingPayloadfromSystemlayerTravelonTrip" doc:id="f186e5ab-cf41-4be7-8013-ec86273ebacd" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -45,7 +48,9 @@ payload map{
 					<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : attributes.headers.transactionId
+	"transactionId" : attributes.headers.transactionId,
+	"client_id" : attributes.headers.client_id,
+	"client_secret": attributes.headers.client_secret
 }]]]></http:headers>
 					<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -54,7 +59,7 @@ payload map{
 	"transportType" : attributes.uriParams.transportType
 }]]]></http:uri-params>
 				</http:request>
-				<ee:transform doc:name="Transform Message" doc:id="4e2674c7-af21-4c33-a4a5-39d5a28369ae">
+				<ee:transform doc:name="gettingPayloadfromSystemlayerFastgo" doc:id="4e2674c7-af21-4c33-a4a5-39d5a28369ae">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -74,7 +79,7 @@ payload map{
 				</ee:transform>
 			</route>
 		</scatter-gather>
-		<ee:transform doc:name="Transform Message" doc:id="ec32ae4c-6eaa-4c4c-8fe6-740ce74b496c" >
+		<ee:transform doc:name="combineOutput" doc:id="ec32ae4c-6eaa-4c4c-8fe6-740ce74b496c" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -82,5 +87,6 @@ output application/json
 payload..payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="DEBUG" doc:name="debugLogger" doc:id="39d86657-64d0-4e4b-bc63-be66ebdab292" message="#[payload]"/>
 	</flow>
 </mule>

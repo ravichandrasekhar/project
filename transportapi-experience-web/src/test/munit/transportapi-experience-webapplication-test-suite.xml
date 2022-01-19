@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<munit:config name="transportapi-experience-webapplication-test-suite.xml" />
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="10457653-e56e-4546-b4ec-af50f0b9ad8c" >
+		<http:request-connection host="localhost" port="8084" />
+	</http:request-config>
+	<munit:test name="transportapi-experience-webapplication-test-suite-transportapi-experience-webapplication-mainTest" doc:id="cf2de943-bf07-4875-98ea-eabca6baf685" description="Test">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="transportapi-experience-webapplication-main" />
+			<munit:enable-flow-source value="routesFlow" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4e757474-0a36-4298-b37a-7cadd513ad50" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="28564e5a-1c8f-46b2-b283-d1dfdd2daa62" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('response.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="e8aa24d0-ad4f-4cb2-b9c3-eb201202ef55" >
+				<http:request method="GET" doc:name="Request" doc:id="6686fb66-b634-4765-adab-779bf262ffe0" config-ref="HTTP_Request_configuration1" path="/api/bookings/{transportType}/routes" >
+					<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transactionId" : "1234556mm"
+}]]]></http:headers>
+					<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"transportType" : "land"
+}]]]></http:uri-params>
+				</http:request>
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="8abe9917-b7aa-45c6-a120-f34fe1360dcc" >
+						<logger level="INFO" doc:name="Logger" doc:id="eb698825-b1e2-420b-925a-63d247ae8f9e" message="#[payload]"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1d51717e-0b2b-4ebc-87aa-d622e1248fd3" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

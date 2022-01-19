@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest" doc:id="6202d465-ba57-41eb-8695-8223e62113d1" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="309123b3-28a6-42a6-b3eb-b8975e467e2e" processor="db:select">
@@ -33,7 +33,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -50,7 +52,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest1" doc:id="dac969bc-b159-48de-8e3e-e6b6b71cfc48" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="f5e60a73-6bdb-4550-a7e2-b3aed8eb21d1" processor="db:select">
@@ -67,7 +69,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -84,7 +88,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest2" doc:id="65096fbf-dbc3-4142-a226-c90f85e1ddc5" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="0a91d12e-8716-4ae7-a6dc-bb75df5457d8" processor="db:select">
@@ -101,7 +105,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -118,7 +124,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest3" doc:id="e2fbd833-0d45-495e-a680-e1c69b48898f" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="a1e63817-5e11-4957-8173-0b45b3139858" processor="db:select">
@@ -135,7 +141,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -152,7 +160,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest4" doc:id="f8d0417d-4eda-4f2a-bcfd-51d6bc4751dd" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="fa30ed82-bf48-4520-a82e-94fc1c367b29" processor="db:select">
@@ -195,7 +203,7 @@ output application/json
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest5" doc:id="a8f0a57a-63dd-45e6-b4ed-a449f98fd911" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="92299cab-8fff-42b9-befc-bcd0f3f928bd" processor="db:select">
@@ -245,7 +253,7 @@ output application/json
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest6" doc:id="dc69d04f-e263-4777-8f94-e481bf00e925" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\routes:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="57d40654-95e8-421a-abd6-a1f61b556f44" processor="db:select">
@@ -295,7 +303,7 @@ output application/json
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest7" doc:id="8e13492f-c7ba-4ca1-a639-60f687782ad3" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="routesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="15224ba6-2a94-47ad-aa2d-7d76e315783a" processor="db:select">
@@ -312,7 +320,9 @@ output application/json
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -329,7 +339,7 @@ output application/json
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest8" doc:id="8cf36479-895f-48a3-ab0d-17cdf339c5ac" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="SchudulesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="bb0bdf2e-e713-462a-8f8d-ef6a3c69d44e" processor="db:select">
@@ -346,7 +356,9 @@ output application/json
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -369,7 +381,7 @@ output application/json
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest9" doc:id="4f0619c0-71ad-4f19-a6a0-12cfb7b1c75d" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="SchudulesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="446aefda-9f3b-4cc4-b052-6e7c08b3be8e" processor="db:select">
@@ -386,7 +398,9 @@ output application/json
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -409,7 +423,7 @@ output application/json
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest10" doc:id="808150af-9beb-4ba2-9f0e-e970e23b43c4" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="SchudulesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="24f40189-60c6-49bb-861a-f393dac95ca6" processor="db:select">
@@ -426,7 +440,9 @@ output application/json
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
@@ -449,7 +465,7 @@ output application/json
 	<munit:test name="transportap-system-fastgo-test-suite-transportap-system-fastgo-mainTest11" doc:id="f70d5c52-3f17-49af-9644-7ee41631392b" description="Test">
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="transportap-system-fastgo-main" />
-			<munit:enable-flow-source value="get:\(transportType)\(transportCompany)\schudules:transportap-system-fastgo-config" />
+			<munit:enable-flow-source value="SchudulesFlow" />
 		</munit:enable-flow-sources>
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="e4df19d5-4883-4a9f-9cbb-5835488a50ed" processor="db:select">
@@ -466,7 +482,9 @@ output application/json
 				<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"transactionId" : "123dntii"
+	"client_secret" : "123mmm",
+	"transactionId" : "123dntii",
+	"client_id" : "123mmm"
 }]]]></http:headers>
 				<http:uri-params ><![CDATA[#[output application/java
 ---
